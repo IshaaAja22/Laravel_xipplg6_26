@@ -52,9 +52,9 @@ class StudentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Student $student)
     {
-        //
+        return view('admin.student.edit', compact('student'));
     }
 
     /**
@@ -62,7 +62,15 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+       $validated = $request->validate([
+         'nis' => 'required',
+         'nama_lengkap' => 'required',
+         'jenis_kelamin' => 'required',
+         'nisn' => 'required',
+       ]);
+
+       $student->update($validated);
+       return redirect()->route('admin.students.index')->with('success', 'Data siswa berhasil diperbarui');
     }
 
     /**
